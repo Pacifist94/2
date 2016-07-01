@@ -1,0 +1,90 @@
+using UnityEngine;
+using System.Collections;
+
+public class SelectPlayers : MonoBehaviour {
+    
+    float lerpTime = 1f;
+    float currentLerpTime = 0f;
+
+    
+
+    float perc;
+
+    Vector3 initialPos;
+    Vector3 finalPos;
+
+    int counter = 0;
+    private bool doTheLerp;
+
+    protected void Start()
+    {
+              
+    }
+
+    protected void Update()
+    {
+              
+        if (doTheLerp)
+        {
+            LerpCamera();
+        }
+       
+    }
+
+
+    public void LerpCamera()
+    {           
+
+        //increment timer once per frame
+        currentLerpTime += Time.deltaTime;
+
+        if (currentLerpTime > lerpTime) // Animation Completed 
+        {
+            currentLerpTime = lerpTime; // make equal
+            doTheLerp = false; // stop lerping 
+            //;// reset time lerp
+        }
+
+        //lerp!
+        perc = currentLerpTime / lerpTime;
+        transform.position = Vector3.Lerp(initialPos, finalPos, perc);
+
+        doTheLerp = true;
+    }
+
+
+
+    public void LerpFunction(int pos)
+    {
+        if (pos == 1)
+        {
+            counter++;
+
+            initialPos = transform.position ;
+             finalPos = new Vector3(100f + (50f * counter), transform.position.y , transform.position.z); 
+
+            doTheLerp = true;
+            currentLerpTime = 0;
+
+            
+           
+            
+        }
+
+        if (pos == 0)
+        {
+            counter--;
+            initialPos = transform.position;
+            finalPos = new Vector3((100f +  (50f * counter)) , transform.position.y, transform.position.z);    
+
+            doTheLerp = true;
+            currentLerpTime = 0;
+
+
+        
+          
+
+        }
+    }
+
+}
